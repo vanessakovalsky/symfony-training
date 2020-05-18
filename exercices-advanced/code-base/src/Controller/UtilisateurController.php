@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Entity\Pronostic;
 use App\Form\UtilisateurType;
-use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,12 +51,8 @@ class UtilisateurController extends AbstractController
      */
     public function show(Utilisateur $utilisateur): Response
     {
-      $prono_by_user = $this->getDoctrine()->getRepository(Pronostic::class)->getPronoByUserGroupedByMatch($utilisateur->getId());
-      $pronostics = $this->getDoctrine()->getRepository(Utilisateur::class)->countPronosticByUser($utilisateur->getId());
         return $this->render('utilisateur/show.html.twig',
           ['utilisateur' => $utilisateur,
-            'nb_pronostic' => $pronostics,
-            'prono_by_user' => $prono_by_user,
           ]);
     }
 
