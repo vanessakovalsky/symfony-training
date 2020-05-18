@@ -14,7 +14,11 @@ class HomepageController
   {
     return new Response(
       '<html><body>Bienvenue sur notre application
-      de pronostic</body></html>'
+      de pronostic<br />
+      <p><a href="game/">Accéder aux Games</a>
+      <a href="utilisateur/">Accéder aux Utilisateurs</a>
+      <a href="pronostic/">Accéder aux Pronostics</a>
+      </p></body></html>'
     );
   }
 }
