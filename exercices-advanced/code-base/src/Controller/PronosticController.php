@@ -9,12 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Psr\Log\LoggerInterface;
 use App\Controller\FootballCupController;
-use App\Event\LogEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/pronostic")
@@ -24,10 +20,8 @@ class PronosticController extends AbstractController
 
   private $logger;
 
-  public function __construct(LoggerInterface $logger_interface, FootballCupController $football_cup, EventDispatcherInterface $event_dispatcher){
-    $this->logger = $logger_interface;
+  public function __construct(FootballCupController $football_cup){
     $this->football_cup = $football_cup;
-    $this->event_dispatcher = $event_dispatcher;
   }
     /**
      * @Route("/", name="pronostic_index", methods="GET")
@@ -35,13 +29,11 @@ class PronosticController extends AbstractController
     public function index(PronosticRepository $pronosticRepository): Response
     {
       //$liste_competitions = $this->football_cup->getListGames();
-      $this->logger->info('Affichage de la page index pronostic');
         return $this->render('pronostic/index.html.twig', ['pronostics' => $pronosticRepository->findAll()]);
     }
 
     /**
      * @Route("/new", name="pronostic_new", methods="GET|POST")
-     * @Security("has_role('ROLE_USER')")
      */
     public function new(Request $request): Response
     {
@@ -56,9 +48,6 @@ class PronosticController extends AbstractController
 
             return $this->redirectToRoute('pronostic_index');
         }
-
-        //$log_event = new LogEvent();
-        //$this->event_dispatcher->dispatch(LogEvent::LOGAPP, $log_event);
 
         return $this->render('pronostic/new.html.twig', [
             'pronostic' => $pronostic,
@@ -77,7 +66,6 @@ class PronosticController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="pronostic_edit", methods="GET|POST")
-     * @Security("has_role('ROLE_USER')")
      */
     public function edit(Request $request, Pronostic $pronostic): Response
     {
@@ -104,7 +92,6 @@ class PronosticController extends AbstractController
 
     /**
      * @Route("/{id}", name="pronostic_delete", methods="DELETE")
-     * @Security("has_role('ROLE_ADMIN')")
      */
     public function delete(Request $request, Pronostic $pronostic): Response
     {
