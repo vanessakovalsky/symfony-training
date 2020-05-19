@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Pronostic{% endblock %}
+
+{% block body %}
+    <h1>Edit Pronostic</h1>
+
+    {{ include('pronostic/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('pronostic_index') }}">back to list</a>
+
+    {{ include('pronostic/_delete_form.html.twig') }}
+{% endblock %}
