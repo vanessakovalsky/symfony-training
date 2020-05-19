@@ -53,6 +53,11 @@ class Game
      */
     private $pronostics;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $dateDernierPronostic;
+
     public function __construct()
     {
         $this->pronostics = new ArrayCollection();
@@ -107,6 +112,13 @@ class Game
     public function setScore2(string $score2): self
     {
         $this->score2 = $score2;
+
+        return $this;
+    }
+
+    public function setDateDernierPronostic($DateDernierPronostic): self
+    {
+        $this->dateDernierPronostic = $DateDernierPronostic;
 
         return $this;
     }

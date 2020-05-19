@@ -40,6 +40,11 @@ class Pronostic
      */
     private $id_game;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $createdAt;
+
     public function __construct()
     {
         $this->id_game = new ArrayCollection();
@@ -124,6 +129,15 @@ class Pronostic
     public function __toString(){
       return $this->score1;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
 
     /**
      * @ORM\PrePersist
