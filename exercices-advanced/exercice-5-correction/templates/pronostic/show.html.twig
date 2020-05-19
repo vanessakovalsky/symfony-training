@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pronostic{% endblock %}
+
+{% block body %}
+    <h1>Pronostic</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pronostic.id }}</td>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ score(pronostic.score1, pronostic.score2) }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('pronostic_index') }}">back to list</a>
+
+    <a href="{{ path('pronostic_edit', {'id': pronostic.id}) }}">edit</a>
+
+    {{ include('pronostic/_delete_form.html.twig') }}
+{% endblock %}
