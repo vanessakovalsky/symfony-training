@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -44,9 +45,7 @@ class PronosticController extends AbstractController
         $this->cache->save($pronostics_cache);
       }
 
-      $response = $this->render('pronostic/index.html.twig', ['pronostics' => $pronostics_cache->get() ]);
-      $response->setSharedMaxAge(60);
-      return $response;
+      return $this->render('pronostic/index.html.twig', ['pronostics' => $pronostics_cache->get() ]);
     }
 
     /**
@@ -86,6 +85,7 @@ class PronosticController extends AbstractController
      */
     public function show(Pronostic $pronostic): Response
     {
+      
         return $this->render('pronostic/show.html.twig', ['pronostic' => $pronostic]);
     }
 
@@ -94,8 +94,8 @@ class PronosticController extends AbstractController
      */
     public function edit(Request $request, Pronostic $pronostic): Response
     {
-      if($this->getUser()->getId() == $pronostic->getIdUser()->getId())
-      {
+      $this->denyAccessUnlessGranted('PRONO_EDIT',$pronostic);
+
         $form = $this->createForm(PronosticType::class, $pronostic);
         $form->handleRequest($request);
 
@@ -109,10 +109,7 @@ class PronosticController extends AbstractController
             'pronostic' => $pronostic,
             'form' => $form->createView(),
         ]);
-      }
-      else  {
-        throw new AccessDeniedException('Vous ne pouvez modifier que vos propres pronostics!');
-      }
+
     }
 
     /**

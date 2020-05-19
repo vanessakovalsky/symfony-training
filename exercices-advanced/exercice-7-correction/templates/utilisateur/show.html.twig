@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Utilisateur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ utilisateur.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ utilisateur.username }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ utilisateur.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+Nombre de pronostic de l'utilisateur : {{ nb_pronostic.0[1] }}<br />
+    <a href="{{ path('utilisateur_index') }}">back to list</a>
+
+    <a href="{{ path('utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+
+    {{ include('utilisateur/_delete_form.html.twig') }}
+
+    <table class="table">
+        <thead>
+          <tn>
+            <th>ID</th>
+            <th>Equipe 1</th>
+            <th>Equipe 2</th>
+            <th>Score 1</th>
+            <th>Score 2</th>
+          </tn>
+        </thead>
+        <tbody>
+            {% for prono in prono_by_user %}
+              <tr>
+                  <td>{{ prono.id }}</td>
+                  <td>{{ prono.idgame[0].equipe1 }}</td>
+                  <td>{{ prono.idgame[0].equipe2 }}</td>
+                  <td>{{ prono.score1 }}</td>
+                  <td>{{ prono.score2 }}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
