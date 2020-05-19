@@ -44,7 +44,9 @@ class PronosticController extends AbstractController
         $this->cache->save($pronostics_cache);
       }
 
-      return $this->render('pronostic/index.html.twig', ['pronostics' => $pronostics_cache->get() ]);
+      $response = $this->render('pronostic/index.html.twig', ['pronostics' => $pronostics_cache->get() ]);
+      $response->setSharedMaxAge(60);
+      return $response;
     }
 
     /**
