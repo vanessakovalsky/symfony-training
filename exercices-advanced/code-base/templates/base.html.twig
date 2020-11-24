@@ -9,6 +9,11 @@
     <body>
       
       <div class="container">
+        <ul>
+          <li><a href="{{path('pronostic_index')}}">Pronostic</a></li>
+          <li><a href="{{path('utilisateur_index')}}">Utilisateur</a></li>
+          <li><a href="{{path('game_index')}}">Games</a></li>
+        </ul>
         {% block body %}{% endblock %}
       </div>
         {% block javascripts %}{% endblock %}
